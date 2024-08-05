@@ -1,0 +1,6 @@
+RACE_DICT = {0: 'WHITE',
+ 1: 'BLACK/AFRICAN AMERICAN',
+ 2:'ASIAN'}
+
+
+

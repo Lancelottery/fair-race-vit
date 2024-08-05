@@ -1,0 +1,7 @@
+torch
+numpy
+einops
+fancy_einsum
+datasets
+torchvision
+ipython
