@@ -75,8 +75,8 @@ def compute_logit_differences(model, clean_output, clean_cache):
 
     per_head_logit_diffs = residual_stack_to_logit_attn(per_head_residual, clean_cache, logit_diff_directions)
     per_head_logit_diffs = einops.rearrange(per_head_logit_diffs, "(layer head_index) -> layer head_index", layer=model.cfg.n_layers, head_index=model.cfg.n_heads)
-
-    top_positive_logit_attr_heads = torch.topk(per_head_logit_diffs.flatten(), k=1).indices
+    top_positive_logit_attr_heads = torch.topk(per_head_logit_diffs.flatten(), k=5).indices
+    print('Head indices of positive logit attr tokens:', top_positive_logit_attr_heads)
     layer_number, head_index = get_target_layer_head(top_positive_logit_attr_heads, model)
 
     return layer_number, head_index

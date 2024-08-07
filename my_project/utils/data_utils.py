@@ -2,6 +2,7 @@ import torch
 import random
 import numpy as np
 from torchvision import transforms
+from torch.utils.data import DataLoader
 from vit_prisma.utils.data_utils.race_dict import RACE_DICT
 
 class ConvertTo3Channels:
@@ -44,3 +45,15 @@ def get_image_from_batch(images, labels, idx):
     label = labels[idx]
     label_str = RACE_DICT.get(label.item(), 'Unknown')
     return image
+
+def get_subset_loader(batch_size, dataset, race=None):
+    if race:
+        subset = dataset.filter(lambda example: example['race'] == race)
+    else:
+        subset = dataset
+
+    # Apply the transformation
+    subset.set_transform(transform_batch)
+    
+    # Convert the filtered subset to a PyTorch DataLoader
+    return DataLoader(subset, batch_size=batch_size, shuffle=True, num_workers=4, worker_init_fn=worker_init_fn)
